@@ -203,6 +203,10 @@ def predict_category(text, cat_vecs=None, cat_names=None):
     model = load_category_model()
     if model is not None:
         try:
+            proba = model.predict_proba([clean])[0]
+            max_proba = proba.max()
+            if max_proba < 0.35:
+                return "General"
             return str(model.predict([clean])[0])
         except Exception:
             pass
